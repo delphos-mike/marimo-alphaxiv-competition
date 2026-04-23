@@ -159,8 +159,8 @@ def _(mo):
 @app.cell
 def _(mo):
     layer_dropdown = mo.ui.dropdown(
-        options={"Layer 1 (64 units)": "0", "Layer 2 (32 units)": "1"},
-        value="0",
+        options=["Layer 1 (64 units)", "Layer 2 (32 units)"],
+        value="Layer 1 (64 units)",
         label="Hidden layer to examine",
     )
     layer_dropdown
@@ -189,7 +189,8 @@ def _(LogisticRegression, layer_dropdown, random_acts, trained_acts, y_test):
             }
         )
 
-    selected_layer_idx = int(layer_dropdown.value)
+    _layer_map = {"Layer 1 (64 units)": 0, "Layer 2 (32 units)": 1}
+    selected_layer_idx = _layer_map.get(layer_dropdown.value, 0)
     return probe_results, selected_layer_idx
 
 
@@ -571,8 +572,8 @@ def _(mo):
         label="Method",
     )
     det_layer_dd = mo.ui.dropdown(
-        options={"Layer 1 (64 units)": "0", "Layer 2 (32 units)": "1"},
-        value="0",
+        options=["Layer 1 (64 units)", "Layer 2 (32 units)"],
+        value="Layer 1 (64 units)",
         label="Layer",
     )
     det_network_dd = mo.ui.dropdown(
@@ -677,7 +678,8 @@ def _(
         p_val = float(np.mean(null_dist >= observed))
         return observed, null_dist, p_val
 
-    _layer_idx = int(det_layer_dd.value)
+    _det_layer_map = {"Layer 1 (64 units)": 0, "Layer 2 (32 units)": 1}
+    _layer_idx = _det_layer_map.get(det_layer_dd.value, 0)
     _acts = (
         trained_acts[_layer_idx]
         if det_network_dd.value == "Trained"
@@ -727,7 +729,7 @@ def _(
         f' color:{_fg};">{det_verdict}</span><br>'
         f'<span style="color:{_fg};">'
         f"{det_network_dd.value}"
-        f" · Layer {int(det_layer_dd.value) + 1}"
+        f" · Layer {_det_layer_map.get(det_layer_dd.value, 0) + 1}"
         f" · {det_method_dd.value}<br>"
         f"p = {det_p_value:.4f}"
         f" | α = {det_alpha_slider.value}</span></div>"
