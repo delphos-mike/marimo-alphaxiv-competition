@@ -330,10 +330,15 @@ def _(mo):
     mo.md(
         """## 5. Correlation with Adversarial Robustness
 
-    The paper's Table 1 shows that adversarially trained models have
-    **lower PM dimensionality** — and this correlates strongly with
-    higher robust accuracy. Adversarial training effectively compresses
-    the perceptual manifold closer to the natural data manifold.
+    The paper's central finding: adversarially trained models have
+    **lower PM dimensionality**, which correlates with higher robust
+    accuracy. Adversarial training compresses the perceptual manifold
+    closer to the natural data manifold.
+
+    The scatter plot below uses **illustrative values** inspired by the
+    paper's reported trends (Table 1) to visualize this relationship.
+    Exact numbers require ImageNet-scale PM estimation with pretrained
+    models, which is beyond CPU/WASM constraints.
 
     Select an architecture family to filter the scatter plot.
     """
