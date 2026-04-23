@@ -225,7 +225,7 @@ def _(alt, pd, probe_results):
         alt.Chart(probe_df)
         .mark_bar()
         .encode(
-            x=alt.X("Network:N", title=None),
+            x=alt.X("Layer:N", title="Hidden Layer"),
             y=alt.Y(
                 "Probe Accuracy:Q",
                 scale=alt.Scale(domain=[0, 1]),
@@ -237,11 +237,17 @@ def _(alt, pd, probe_results):
                     domain=["Trained", "Random"], range=["#2563eb", "#dc2626"]
                 ),
             ),
-            column=alt.Column("Layer:N", title="Hidden Layer"),
-            tooltip=["Network:N", alt.Tooltip("Probe Accuracy:Q", format=".1%")],
+            xOffset="Network:N",
+            tooltip=[
+                "Network:N",
+                "Layer:N",
+                alt.Tooltip("Probe Accuracy:Q", format=".1%"),
+            ],
         )
         .properties(
-            width=160, height=300, title="Linear Probe Accuracy: Trained vs Random"
+            width=350,
+            height=300,
+            title="Linear Probe Accuracy: Trained vs Random",
         )
     )
 
@@ -729,7 +735,7 @@ def _(
         f' color:{_fg};">{det_verdict}</span><br>'
         f'<span style="color:{_fg};">'
         f"{det_network_dd.value}"
-        f" · Layer {_det_layer_map.get(det_layer_dd.value, 0) + 1}"
+        f" · {det_layer_dd.value}"
         f" · {det_method_dd.value}<br>"
         f"p = {det_p_value:.4f}"
         f" | α = {det_alpha_slider.value}</span></div>"
